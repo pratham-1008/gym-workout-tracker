@@ -3,8 +3,8 @@ const form = document.getElementById("workout-form");
 const workoutList = document.getElementById("workout-list");
 const emptyMessage = document.getElementById("empty-message");
 const formMessage = document.getElementById("form-message");
-
 const dateInput = document.getElementById("workout-date");
+const workoutFilter = document.getElementById("workout-filter");
 
 const STORAGE_KEY = "fittrack-workouts";
 
@@ -21,13 +21,11 @@ dateInput.value = getLocalDateString();
 function loadWorkouts() {
     try {
         const saved = localStorage.getItem(STORAGE_KEY);
-        const workouts = saved ? JSON.parse(saved) : [];
+        const data = saved ? JSON.parse(saved) : [];
 
-        if (!Array.isArray(workouts)) {
-            return [];
-        }
+        if (!Array.isArray(data)) return [];
 
-        return workouts.filter(workout =>
+        return data.filter(workout =>
             workout &&
             typeof workout.id === "string" &&
             typeof workout.exercise === "string" &&
@@ -58,10 +56,9 @@ function getCurrentWeekStart() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const day = today.getDay();
-    const daysSinceMonday = (day + 6) % 7;
-
+    const daysSinceMonday = (today.getDay() + 6) % 7;
     today.setDate(today.getDate() - daysSinceMonday);
+
     return getLocalDateString(today);
 }
 
@@ -105,19 +102,29 @@ function createTextElement(tag, className, text) {
         element.className = className;
     }
 
-    element.textContent = text;
+    element.textContent = String(text);
     return element;
 }
 
 function renderWorkouts() {
     workoutList.replaceChildren();
 
-    emptyMessage.hidden = workouts.length > 0;
+    const selectedType = workoutFilter.value;
 
-    const sortedWorkouts = [...workouts].sort((a, b) => {
-        return b.date.localeCompare(a.date) ||
-            b.id.localeCompare(a.id);
-    });
+    const filteredWorkouts = workouts.filter(workout =>
+        selectedType === "All" || workout.type === selectedType
+    );
+
+    const sortedWorkouts = [...filteredWorkouts].sort((a, b) =>
+        b.date.localeCompare(a.date) ||
+        b.id.localeCompare(a.id)
+    );
+
+    emptyMessage.hidden = sortedWorkouts.length > 0;
+
+    emptyMessage.textContent = workouts.length === 0
+        ? "No workouts yet. Log your first session above!"
+        : "No workouts found for this muscle group.";
 
     sortedWorkouts.forEach(workout => {
         const card = document.createElement("article");
@@ -148,11 +155,7 @@ function renderWorkouts() {
         );
 
         card.appendChild(
-            createTextElement(
-                "p",
-                "",
-                `Weight: ${workout.weight} kg`
-            )
+            createTextElement("p", "", `Weight: ${workout.weight} kg`)
         );
 
         card.appendChild(
@@ -178,11 +181,9 @@ function renderWorkouts() {
         deleteButton.type = "button";
 
         deleteButton.addEventListener("click", () => {
-            const confirmed = confirm(
-                "Do you want to delete this workout?"
-            );
-
-            if (!confirmed) return;
+            if (!confirm("Do you want to delete this workout?")) {
+                return;
+            }
 
             const previousWorkouts = workouts;
 
@@ -195,7 +196,6 @@ function renderWorkouts() {
             } else {
                 workouts = previousWorkouts;
                 renderWorkouts();
-                updateStats();
             }
         });
 
@@ -205,6 +205,9 @@ function renderWorkouts() {
 
     updateStats();
 }
+
+// NEW FEATURE: Filter workouts by muscle group
+workoutFilter.addEventListener("change", renderWorkouts);
 
 form.addEventListener("submit", event => {
     event.preventDefault();
@@ -256,8 +259,8 @@ form.addEventListener("submit", event => {
 
     renderWorkouts();
     form.reset();
-    dateInput.value = getLocalDateString();
 
+    dateInput.value = getLocalDateString();
     document.getElementById("sets").value = 3;
     document.getElementById("reps").value = 10;
     document.getElementById("weight").value = 0;
