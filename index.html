@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -165,7 +165,16 @@
                 </button>
             </div>
 
-            <!-- NEW: Workout category filter -->
+            <!-- Search workouts by exercise name -->
+            <label for="workout-search">Search exercises</label>
+            <input
+                type="search"
+                id="workout-search"
+                placeholder="Search by exercise name..."
+                autocomplete="off"
+            >
+
+            <!-- Filter workouts by muscle group -->
             <label for="workout-filter">Filter by muscle group</label>
             <select id="workout-filter">
                 <option value="All">All workouts</option>
@@ -196,3 +205,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+```

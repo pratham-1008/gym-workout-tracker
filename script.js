@@ -1,10 +1,11 @@
-
+```javascript
 const form = document.getElementById("workout-form");
 const workoutList = document.getElementById("workout-list");
 const emptyMessage = document.getElementById("empty-message");
 const formMessage = document.getElementById("form-message");
 const dateInput = document.getElementById("workout-date");
 const workoutFilter = document.getElementById("workout-filter");
+const workoutSearch = document.getElementById("workout-search");
 
 const STORAGE_KEY = "fittrack-workouts";
 
@@ -110,10 +111,18 @@ function renderWorkouts() {
     workoutList.replaceChildren();
 
     const selectedType = workoutFilter.value;
+    const searchText = workoutSearch.value.trim().toLowerCase();
 
-    const filteredWorkouts = workouts.filter(workout =>
-        selectedType === "All" || workout.type === selectedType
-    );
+    // Combine category filtering and exercise searching.
+    const filteredWorkouts = workouts.filter(workout => {
+        const matchesType =
+            selectedType === "All" || workout.type === selectedType;
+
+        const matchesSearch =
+            workout.exercise.toLowerCase().includes(searchText);
+
+        return matchesType && matchesSearch;
+    });
 
     const sortedWorkouts = [...filteredWorkouts].sort((a, b) =>
         b.date.localeCompare(a.date) ||
@@ -122,9 +131,13 @@ function renderWorkouts() {
 
     emptyMessage.hidden = sortedWorkouts.length > 0;
 
-    emptyMessage.textContent = workouts.length === 0
-        ? "No workouts yet. Log your first session above!"
-        : "No workouts found for this muscle group.";
+    if (workouts.length === 0) {
+        emptyMessage.textContent =
+            "No workouts yet. Log your first session above!";
+    } else if (sortedWorkouts.length === 0) {
+        emptyMessage.textContent =
+            "No matching workouts found. Try another search or filter.";
+    }
 
     sortedWorkouts.forEach(workout => {
         const card = document.createElement("article");
@@ -191,7 +204,6 @@ function renderWorkouts() {
 
             if (saveWorkouts()) {
                 renderWorkouts();
-                updateStats();
                 formMessage.textContent = "Workout deleted.";
             } else {
                 workouts = previousWorkouts;
@@ -206,8 +218,9 @@ function renderWorkouts() {
     updateStats();
 }
 
-// NEW FEATURE: Filter workouts by muscle group
+// Search and category filter events
 workoutFilter.addEventListener("change", renderWorkouts);
+workoutSearch.addEventListener("input", renderWorkouts);
 
 form.addEventListener("submit", event => {
     event.preventDefault();
@@ -292,3 +305,4 @@ document.getElementById("clear-history").addEventListener("click", () => {
 });
 
 renderWorkouts();
+```
