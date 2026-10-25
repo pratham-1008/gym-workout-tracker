@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrack | Gym Workout Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <a href="#" class="logo">Fit<span>Track</span></a>
+        <nav>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#log-workout">Log Workout</a>
+            <a href="#history">History</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="welcome" id="dashboard">
+            <div>
+                <p class="eyebrow">YOUR FITNESS JOURNEY</p>
+                <h1>Build strength.<br>Track progress.</h1>
+                <p class="subtitle">
+                    Every workout counts. Keep showing up for yourself.
+                </p>
+                <a href="#log-workout" class="primary-btn">+ Log a workout</a>
+            </div>
+            <div class="hero-icon">💪</div>
+        </section>
+
+        <section class="stats">
+            <article class="stat-card">
+                <span>Workouts logged</span>
+                <h2 id="total-workouts">0</h2>
+            </article>
+            <article class="stat-card">
+                <span>Total exercises</span>
+                <h2 id="total-exercises">0</h2>
+            </article>
+            <article class="stat-card">
+                <span>This week</span>
+                <h2 id="weekly-workouts">0</h2>
+            </article>
+        </section>
+
+        <section class="panel" id="log-workout">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">RECORD YOUR SESSION</p>
+                    <h2>Log a Workout</h2>
+                </div>
+            </div>
+
+            <form id="workout-form">
+                <label for="workout-date">Workout date</label>
+                <input type="date" id="workout-date" required>
+
+                <label for="workout-type">Muscle group</label>
+                <select id="workout-type" required>
+                    <option value="">Select muscle group</option>
+                    <option>Chest</option>
+                    <option>Back</option>
+                    <option>Shoulders</option>
+                    <option>Biceps</option>
+                    <option>Triceps</option>
+                    <option>Legs</option>
+                    <option>Abs</option>
+                    <option>Full Body</option>
+                    <option>Cardio</option>
+                </select>
+
+                <div class="form-row">
+                    <div>
+                        <label for="exercise-name">Exercise name</label>
+                        <input type="text" id="exercise-name"
+                               placeholder="e.g. Bench Press" required>
+                    </div>
+                    <div>
+                        <label for="sets">Sets</label>
+                        <input type="number" id="sets" min="1" max="100"
+                               value="3" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div>
+                        <label for="reps">Reps per set</label>
+                        <input type="number" id="reps" min="1" max="1000"
+                               value="10" required>
+                    </div>
+                    <div>
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" min="0" max="10000"
+                               step="0.5" value="0" required>
+                    </div>
+                </div>
+
+                <label for="duration">Duration (minutes)</label>
+                <input type="number" id="duration" min="1" max="1440"
+                       value="60" required>
+
+                <label for="notes">Notes (optional)</label>
+                <textarea id="notes" rows="3"
+                          placeholder="How did your workout go?"></textarea>
+
+                <button type="submit" class="primary-btn">
+                    Save Workout
+                </button>
+            </form>
+            <p id="form-message" role="status"></p>
+        </section>
+
+        <section class="panel" id="history">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">YOUR CONSISTENCY</p>
+                    <h2>Workout History</h2>
+                </div>
+                <button id="clear-history" class="secondary-btn" type="button">
+                    Clear history
+                </button>
+            </div>
+
+            <div id="workout-list" class="workout-list"></div>
+            <p id="empty-message" class="empty-message">
+                No workouts yet. Log your first session above!
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>FitTrack — Small steps. Stronger habits.</p>
+        <p>Built with HTML, CSS, JavaScript and Git.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
