@@ -120,8 +120,9 @@ the actual image filenames here.
 
 ## 11. Author
 
-Student: [Your Name]
+Student: [Prathmesh Vijay Gare]
 
 Subject: DevOps and Kubernetes
 
 Assignment: ISE-2
+
