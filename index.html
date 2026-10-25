@@ -35,10 +35,12 @@
                 <span>Workouts logged</span>
                 <h2 id="total-workouts">0</h2>
             </article>
+
             <article class="stat-card">
                 <span>Total exercises</span>
                 <h2 id="total-exercises">0</h2>
             </article>
+
             <article class="stat-card">
                 <span>This week</span>
                 <h2 id="weekly-workouts">0</h2>
@@ -74,41 +76,76 @@
                 <div class="form-row">
                     <div>
                         <label for="exercise-name">Exercise name</label>
-                        <input type="text" id="exercise-name"
-                               placeholder="e.g. Bench Press" required>
+                        <input
+                            type="text"
+                            id="exercise-name"
+                            placeholder="e.g. Bench Press"
+                            required
+                        >
                     </div>
+
                     <div>
                         <label for="sets">Sets</label>
-                        <input type="number" id="sets" min="1" max="100"
-                               value="3" required>
+                        <input
+                            type="number"
+                            id="sets"
+                            min="1"
+                            max="100"
+                            value="3"
+                            required
+                        >
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div>
                         <label for="reps">Reps per set</label>
-                        <input type="number" id="reps" min="1" max="1000"
-                               value="10" required>
+                        <input
+                            type="number"
+                            id="reps"
+                            min="1"
+                            max="1000"
+                            value="10"
+                            required
+                        >
                     </div>
+
                     <div>
                         <label for="weight">Weight (kg)</label>
-                        <input type="number" id="weight" min="0" max="10000"
-                               step="0.5" value="0" required>
+                        <input
+                            type="number"
+                            id="weight"
+                            min="0"
+                            max="10000"
+                            step="0.5"
+                            value="0"
+                            required
+                        >
                     </div>
                 </div>
 
                 <label for="duration">Duration (minutes)</label>
-                <input type="number" id="duration" min="1" max="1440"
-                       value="60" required>
+                <input
+                    type="number"
+                    id="duration"
+                    min="1"
+                    max="1440"
+                    value="60"
+                    required
+                >
 
                 <label for="notes">Notes (optional)</label>
-                <textarea id="notes" rows="3"
-                          placeholder="How did your workout go?"></textarea>
+                <textarea
+                    id="notes"
+                    rows="3"
+                    placeholder="How did your workout go?"
+                ></textarea>
 
                 <button type="submit" class="primary-btn">
                     Save Workout
                 </button>
             </form>
+
             <p id="form-message" role="status"></p>
         </section>
 
@@ -118,12 +155,33 @@
                     <p class="eyebrow">YOUR CONSISTENCY</p>
                     <h2>Workout History</h2>
                 </div>
-                <button id="clear-history" class="secondary-btn" type="button">
+
+                <button
+                    id="clear-history"
+                    class="secondary-btn"
+                    type="button"
+                >
                     Clear history
                 </button>
             </div>
 
+            <!-- NEW: Workout category filter -->
+            <label for="workout-filter">Filter by muscle group</label>
+            <select id="workout-filter">
+                <option value="All">All workouts</option>
+                <option value="Chest">Chest</option>
+                <option value="Back">Back</option>
+                <option value="Shoulders">Shoulders</option>
+                <option value="Biceps">Biceps</option>
+                <option value="Triceps">Triceps</option>
+                <option value="Legs">Legs</option>
+                <option value="Abs">Abs</option>
+                <option value="Full Body">Full Body</option>
+                <option value="Cardio">Cardio</option>
+            </select>
+
             <div id="workout-list" class="workout-list"></div>
+
             <p id="empty-message" class="empty-message">
                 No workouts yet. Log your first session above!
             </p>
